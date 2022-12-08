@@ -10,6 +10,5 @@ namespace HelsinkiCityBike.DAL.Repositories
     public interface IJourneyRepository
     {
         Task<List<Journey>> GetAllJourneys();
-        Task<Journey> GetJourneyById(int Id);
     }
 }

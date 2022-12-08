@@ -14,12 +14,26 @@ namespace HelsinkiCityBike.DAL.Repositories
 
         public async Task<List<Journey>> GetAllJourneys()
         {
-            return new List<Journey>();
+            var query = "SELECT TOP (10) " +
+                        "JourneysWithNames.[Covered distance (m)] AS CoveredDistance, " +
+                        "JourneysWithNames.[Duration (sec)] AS Duration, " +
+                        "JourneysWithNames.Name AS DepartureStationName, " +
+                        "dbo.Stations.Name AS ReturnStationName " +
+                        "FROM (SELECT TOP(10) " +
+                              "dbo.Journeys.*, " +
+                              "dbo.Stations.Name " +
+                              "FROM [HelsinkiCityBike].[dbo].[Journeys] " +
+                              "LEFT JOIN dbo.Stations " +
+                              "ON dbo.Journeys.[Departure station id] = dbo.Stations.ID) " +
+                        "AS JourneysWithNames " +
+                        "LEFT JOIN dbo.Stations " +
+                        "ON JourneysWithNames.[Return station id] = dbo.Stations.ID; ";
+            using (var connection = _context.CreateConnection())
+            {
+                var journeys = await connection.QueryAsync<Journey>(query);
+                return journeys.ToList();
+            }
         }
 
-        public async Task<Journey> GetJourneyById(int id)
-        {
-            return new Journey();
-        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HelsinkiCityBike.BLL.Services;
+using HelsinkiCityBike.DAL.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HelsinkiCityBike.API.Controllers
 {
@@ -6,20 +8,20 @@ namespace HelsinkiCityBike.API.Controllers
     [Route("api/journey")]
     public class JourneyController : Controller
     {
+        private readonly IJourneyService _journeyService;
+
+        public JourneyController(IJourneyService journeyService)
+        {
+            _journeyService = journeyService;
+        }
+
         // api/journey
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetAllJourneys()
+        public async Task<ActionResult<List<Journey>>> GetAllJourneys()
         {
-            return Ok();
-        }
-
-        // api/journey(42)
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetJourneyById(int id)
-        {
-            return Ok($"{id}");
+            var res = await _journeyService.GetAllJourneys();
+            return Ok(res);
         }
 
     }
