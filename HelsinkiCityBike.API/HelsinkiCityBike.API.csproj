@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HelsinkiCityBike.BLL\HelsinkiCityBike.BLL.csproj" />
+    <ProjectReference Include="..\HelsinkiCityBike.DAL\HelsinkiCityBike.DAL.csproj" />
   </ItemGroup>
 
 </Project>
