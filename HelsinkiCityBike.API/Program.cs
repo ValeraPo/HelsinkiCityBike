@@ -1,4 +1,5 @@
 using HelsinkiCityBike.API.Configuration;
+using HelsinkiCityBike.API.Infrastructure;
 using HelsinkiCityBike.BLL.Services;
 using HelsinkiCityBike.DAL;
 using HelsinkiCityBike.DAL.Repositories;
@@ -23,6 +24,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ErrorExceptionMiddleware>();
 
 app.MapControllers();
 

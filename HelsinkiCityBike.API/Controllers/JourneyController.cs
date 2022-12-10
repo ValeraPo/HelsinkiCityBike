@@ -1,4 +1,5 @@
-﻿using HelsinkiCityBike.BLL.Services;
+﻿using HelsinkiCityBike.API.Models;
+using HelsinkiCityBike.BLL.Services;
 using HelsinkiCityBike.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace HelsinkiCityBike.API.Controllers
         // api/journey
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
         public async Task<ActionResult<List<Journey>>> GetAllJourneys()
         {
             var outputs = await _journeyService.GetAllJourneys();

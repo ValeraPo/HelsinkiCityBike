@@ -23,7 +23,7 @@ namespace HelsinkiCityBike.BLL.Services
         {
             var id = await _stationRepository.GetIdByName(name);
             if (id == default(int))
-                throw new MissingEntryException($"{name} not found");
+                throw new MissingEntryException($"Station '{name}' not found");
 
             var station = await _stationRepository.GetStationById(id);
             return station;

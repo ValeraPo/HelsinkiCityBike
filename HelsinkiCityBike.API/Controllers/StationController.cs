@@ -22,6 +22,7 @@ namespace HelsinkiCityBike.API.Controllers
         // api/station
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
         public async Task<ActionResult<List<StationShortResponse>>> GetAllStations()
         {
             var outputs = _automapper.Map<List<StationShortResponse>>(await _stationService.GetAllStations());
@@ -31,6 +32,8 @@ namespace HelsinkiCityBike.API.Controllers
         // api/station/Kaivopuisto
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
         public async Task<ActionResult<Station>> GetStationByName(string name)
         {
             var output = await _stationService.GetStationByName(name);
