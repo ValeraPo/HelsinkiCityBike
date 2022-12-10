@@ -14,7 +14,12 @@ namespace HelsinkiCityBike.DAL.Repositories
 
         public async Task<List<Station>> GetAllStations()
         {
-            return new List<Station>();
+            var query = "SELECT Name, Adress AS Address FROM [HelsinkiCityBike].[dbo].Stations";
+            using (var connection = _context.CreateConnection())
+            {
+                var stations = await connection.QueryAsync<Station>(query);
+                return stations.ToList();
+            }
         }
 
         public async Task<Station> GetStationById(int id)

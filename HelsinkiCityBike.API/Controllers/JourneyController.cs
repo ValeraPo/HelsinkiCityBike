@@ -20,8 +20,8 @@ namespace HelsinkiCityBike.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Journey>>> GetAllJourneys()
         {
-            var res = await _journeyService.GetAllJourneys();
-            return Ok(res);
+            var outputs = await _journeyService.GetAllJourneys();
+            return Ok(outputs);
         }
 
     }

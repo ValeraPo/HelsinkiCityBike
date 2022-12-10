@@ -8,7 +8,7 @@ namespace HelsinkiCityBike.API.Configuration
     {
         public AutoMapperApi()
         {
-            CreateMap<Station, StationShortResponseModel>();
+            CreateMap<Station, StationShortResponse>();
         }
     }
 }
