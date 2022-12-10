@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HelsinkiCityBike.API.Models;
 using HelsinkiCityBike.BLL.Services;
+using HelsinkiCityBike.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelsinkiCityBike.API.Controllers
@@ -27,12 +28,13 @@ namespace HelsinkiCityBike.API.Controllers
             return Ok(outputs);
         }
 
-        // api/station(42)
-        [HttpGet("{id}")]
+        // api/station/Kaivopuisto
+        [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetStationById(int id)
+        public async Task<ActionResult<Station>> GetStationByName(string name)
         {
-            return Ok($"{id}");
+            var output = await _stationService.GetStationByName(name);
+            return Ok(output);
         }
 
     }

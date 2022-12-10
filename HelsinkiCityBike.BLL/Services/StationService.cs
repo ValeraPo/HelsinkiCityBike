@@ -1,4 +1,5 @@
-﻿using HelsinkiCityBike.DAL.Entities;
+﻿using HelsinkiCityBike.BLL.Exceptions;
+using HelsinkiCityBike.DAL.Entities;
 using HelsinkiCityBike.DAL.Repositories;
 
 namespace HelsinkiCityBike.BLL.Services
@@ -18,9 +19,14 @@ namespace HelsinkiCityBike.BLL.Services
             return stations;
         }
         
-        public async Task GetStationById(int id)
+        public async Task<Station> GetStationByName(string name)
         {
+            var id = await _stationRepository.GetIdByName(name);
+            if (id == default(int))
+                throw new MissingEntryException($"{name} not found");
 
+            var station = await _stationRepository.GetStationById(id);
+            return station;
         }
     }
 }

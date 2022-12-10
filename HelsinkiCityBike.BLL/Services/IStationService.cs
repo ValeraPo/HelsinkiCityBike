@@ -5,6 +5,6 @@ namespace HelsinkiCityBike.BLL.Services
     public interface IStationService
     {
         Task<List<Station>> GetAllStations();
-        Task GetStationById(int id);
+        Task<Station> GetStationByName(string name);
     }
 }
