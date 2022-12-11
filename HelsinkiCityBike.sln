@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelsinkiCityBike.DAL", "Hel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelsinkiCityBike.API.Tests", "HelsinkiCityBike.API.Tests\HelsinkiCityBike.API.Tests.csproj", "{7147E8A4-3BD8-4613-851D-301C492ED70E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelsinkiCityBike.BLL.Tests", "HelsinkiCityBike.BLL.Tests\HelsinkiCityBike.BLL.Tests.csproj", "{F0A93A4C-7298-45D0-8CB1-AB7689C158B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7147E8A4-3BD8-4613-851D-301C492ED70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7147E8A4-3BD8-4613-851D-301C492ED70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7147E8A4-3BD8-4613-851D-301C492ED70E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A93A4C-7298-45D0-8CB1-AB7689C158B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A93A4C-7298-45D0-8CB1-AB7689C158B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A93A4C-7298-45D0-8CB1-AB7689C158B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A93A4C-7298-45D0-8CB1-AB7689C158B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

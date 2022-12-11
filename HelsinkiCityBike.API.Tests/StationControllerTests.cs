@@ -64,7 +64,7 @@ namespace HelsinkiCityBike.API.Tests
         }
 
         [Test]
-        public async Task GetStationByName_WrommgName_ShouldThrowMissingEntryException()
+        public async Task GetStationByName_WrongName_ShouldThrowMissingEntryException()
         {
             //given
             var name = "WrongName";
