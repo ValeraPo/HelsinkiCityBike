@@ -1,6 +1,5 @@
 ﻿using HelsinkiCityBike.DAL.Entities;
 
-
 namespace HelsinkiCityBike.DAL.Repositories
 {
     public interface IStationRepository

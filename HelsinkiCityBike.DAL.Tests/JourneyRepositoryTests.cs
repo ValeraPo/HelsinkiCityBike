@@ -1,25 +1,29 @@
-using HelsinkiCityBike.BLL.Services;
+using Dapper;
 using HelsinkiCityBike.DAL.Entities;
 using HelsinkiCityBike.DAL.Repositories;
 using Moq;
+using Moq.Dapper;
 using NUnit.Framework;
+using System.Data.Common;
 
-namespace HelsinkiCityBike.BLL.Tests
+namespace HelsinkiCityBike.DAL.Tests
 {
-    public class JourneyServiceTests
+    public class JourneyRepositoryTests
     {
-        private Mock<IJourneyRepository> _journeyRepositoryMock;
-        private JourneyService _sut;
+        private Mock<IDbContext> _dbContextMock;
+        private JourneyRepository _sut;
+        private readonly Mock<DbConnection> _connection;
 
-        public JourneyServiceTests()
+        public JourneyRepositoryTests()
         {
-            _journeyRepositoryMock = new Mock<IJourneyRepository>();
+            _connection = new Mock<DbConnection>();
         }
 
         [SetUp]
         public void Setup()
         {
-            _sut = new JourneyService(_journeyRepositoryMock.Object);
+            _dbContextMock = new Mock<IDbContext>();
+            _sut = new JourneyRepository(_dbContextMock.Object);
         }
 
         [Test]
@@ -35,20 +39,26 @@ namespace HelsinkiCityBike.BLL.Tests
                 },
                 new Journey
                 {
-                    DepartureStationName = "Kiasma", 
+                    DepartureStationName = "Kiasma",
                     ReturnStationName = "Porthania",
                 }
             };
-            _journeyRepositoryMock
-                .Setup(m => m.GetAllJourneys())
+            _dbContextMock.Setup(m => m.CreateConnection()).Returns(_connection.Object);
+            _connection
+                .SetupDapperAsync(m => m.QueryAsync<Journey>(It.IsAny<string>(), null, null, null, null))
                 .ReturnsAsync(expected);
 
             //when
             var actual = await _sut.GetAllJourneys();
 
             //then
-            _journeyRepositoryMock.Verify(m => m.GetAllJourneys(), Times.Once);
+            _dbContextMock.Verify(m => m.CreateConnection(), Times.Once);
             CollectionAssert.AreEqual(expected, actual);
         }
+
+
     }
+
+
+
 }

@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace HelsinkiCityBike.DAL
 {
-    public class DbContext
+    public class DbContext : IDbContext
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;

@@ -5,9 +5,9 @@ namespace HelsinkiCityBike.DAL.Repositories
 {
     public class JourneyRepository : IJourneyRepository
     {
-        private readonly DbContext _context;
+        private readonly IDbContext _context;
 
-        public JourneyRepository(DbContext context)
+        public JourneyRepository(IDbContext context)
         {
             _context = context;
         }

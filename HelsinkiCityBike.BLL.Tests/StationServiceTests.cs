@@ -12,14 +12,10 @@ namespace HelsinkiCityBike.BLL.Tests
         private Mock<IStationRepository> _stationRepositoryMock;
         private StationService _sut;
 
-        public StationServiceTests()
-        {
-            _stationRepositoryMock = new Mock<IStationRepository>();
-        }
-
         [SetUp]
         public void Setup()
         {
+            _stationRepositoryMock = new Mock<IStationRepository>();
             _sut = new StationService(_stationRepositoryMock.Object);
         }
 
@@ -27,7 +23,16 @@ namespace HelsinkiCityBike.BLL.Tests
         public async Task GetAllStations_ShouldReturnListOfStations()
         {
             //given
-            var expected = new List<Station> { new Station { Name = "Kaivopuisto" } };
+            var expected = new List<Station>
+            {
+               new Station
+               {
+                   Name = "Kaivopuisto",
+                   Address = "Havstorget 1",
+                   NumberOfJourneysStartingFrom = 23802,
+                   NumberOfJourneysEndingAt = 24288
+               }
+            };
             _stationRepositoryMock
                 .Setup(m => m.GetAllStations())
                 .ReturnsAsync(expected);
@@ -37,8 +42,7 @@ namespace HelsinkiCityBike.BLL.Tests
 
             //then
             _stationRepositoryMock.Verify(m => m.GetAllStations(), Times.Once);
-            Assert.AreEqual(expected.Count, actual.Count);
-            Assert.AreEqual(expected[0].Name, actual[0].Name);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -46,7 +50,7 @@ namespace HelsinkiCityBike.BLL.Tests
         {
             //given
             var id = 1;
-            var expected =  new Station
+            var expected = new Station
             {
                 Name = "Kaivopuisto",
                 Address = "Havstorget 1",
@@ -66,17 +70,14 @@ namespace HelsinkiCityBike.BLL.Tests
             //then
             _stationRepositoryMock.Verify(m => m.GetIdByName(expected.Name), Times.Once);
             _stationRepositoryMock.Verify(m => m.GetStationById(id), Times.Once);
-            Assert.AreEqual(expected.Name, actual.Name);
-            Assert.AreEqual(expected.Address, actual.Address);
-            Assert.AreEqual(expected.NumberOfJourneysStartingFrom, actual.NumberOfJourneysStartingFrom);
-            Assert.AreEqual(expected.NumberOfJourneysEndingAt, actual.NumberOfJourneysEndingAt);
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public async Task GetStationByName_WrongName_ShouldThrowMissingEntryException()
         {
             //given
-            var name = "Kaivopuisto";
+            var name = "WrongName";
             var expected = $"Station '{name}' not found";
             _stationRepositoryMock
                 .Setup(m => m.GetIdByName(name))
@@ -85,7 +86,7 @@ namespace HelsinkiCityBike.BLL.Tests
             //when
             var actual = Assert
                 .ThrowsAsync<MissingEntryException>(async () => await _sut.GetStationByName(name))!
-                .Message; 
+                .Message;
 
             //then
             _stationRepositoryMock.Verify(m => m.GetIdByName(name), Times.Once);

@@ -5,9 +5,9 @@ namespace HelsinkiCityBike.DAL.Repositories
 {
     public class StationRepository : IStationRepository
     {
-        private readonly DbContext _context;
+        private readonly IDbContext _context;
 
-        public StationRepository(DbContext context)
+        public StationRepository(IDbContext context)
         {
             _context = context;
         }
@@ -24,24 +24,36 @@ namespace HelsinkiCityBike.DAL.Repositories
 
         public async Task<Station> GetStationById(int id)
         {
-            var queryForNameAndAddress = $"SELECT Name, Adress AS Address " +
-                                         $"FROM [HelsinkiCityBike].[dbo].Stations " +
-                                         $"WHERE [dbo].Stations.ID = {id}";
-            var queryForCountOfDepartures = $"SELECT " +
-                                            $"COUNT(dbo.Journeys.[Departure station id]) AS NumberOfJourneysStartingFrom " +
-                                            $"FROM dbo.Journeys " +
-                                            $"WHERE [Departure station id] = {id}";
-            var queryForCountOfReturnss = $"SELECT " +
-                                          $"COUNT(dbo.Journeys.[Return station id]) AS NumberOfJourneysEndingAt " +
-                                          $"FROM dbo.Journeys " +
-                                          $"WHERE [Return station id] = {id}";
-
+            var query = $"SELECT " +
+                            $"Name, " +
+                            $"Address, " +
+                            $"NumberOfJourneysStartingFrom,	" +
+                            $"NumberOfJourneysEndingAt " +
+                        $"FROM " +
+                              $"(SELECT " +
+                                   $"ID, " +
+                                   $"Name, " +
+                                   $"Adress AS Address " +
+                              $"FROM [HelsinkiCityBike].[dbo].Stations " +
+                              $"WHERE [HelsinkiCityBike].[dbo].Stations.ID = {id}) " +
+                         $"A FULL JOIN " +
+                              $"(SELECT " +
+                                   $"COUNT(dbo.Journeys.[Departure station id]) AS NumberOfJourneysStartingFrom, " +
+                                   $"[Departure station id] AS ID " +
+                              $"FROM dbo.Journeys " +
+                              $"WHERE [Departure station id] = {id} " +
+                              $"GROUP BY [Departure station id]) " +
+                         $"B ON A.ID = B.ID FULL JOIN " +
+                              $"(SELECT " +
+                                   $"COUNT(dbo.Journeys.[Return station id]) AS NumberOfJourneysEndingAt, " +
+                                   $"[Return station id] AS ID	" +
+                              $"FROM dbo.Journeys " +
+                              $"WHERE [Return station id] = {id}" +
+                              $"GROUP BY [Return station id]) " +
+                         $"C ON B.ID = C.ID";
             using (var connection = _context.CreateConnection())
             {
-                var station = await connection.QueryFirstOrDefaultAsync<Station>(queryForNameAndAddress);
-                station.NumberOfJourneysStartingFrom = await connection.QueryFirstOrDefaultAsync<int>(queryForCountOfDepartures);
-                station.NumberOfJourneysEndingAt = await connection.QueryFirstOrDefaultAsync<int>(queryForCountOfReturnss);
-
+                var station = await connection.QueryFirstOrDefaultAsync<Station>(query);
                 return station;
             }
         }
