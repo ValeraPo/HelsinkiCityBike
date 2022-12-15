@@ -24,6 +24,10 @@ namespace HelsinkiCityBike.API.Infrastructure
             {
                 await ConstructResponse(context, HttpStatusCode.BadRequest, error.Message);
             }
+            catch (MissingEntryException error)
+            {
+                await ConstructResponse(context, HttpStatusCode.BadRequest, error.Message);
+            }
             catch (TimeoutException error)
             {
                 await ConstructResponse(context, HttpStatusCode.GatewayTimeout, error.Message);

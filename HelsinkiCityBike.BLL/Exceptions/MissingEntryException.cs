@@ -1,6 +1,6 @@
 ﻿namespace HelsinkiCityBike.BLL.Exceptions
 {
-    public class MissingEntryException : ArgumentOutOfRangeException
+    public class MissingEntryException : Exception
     {
         public MissingEntryException(string message) : base(message)
         { }

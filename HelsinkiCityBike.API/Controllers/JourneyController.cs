@@ -19,6 +19,7 @@ namespace HelsinkiCityBike.API.Controllers
         // api/journey/1/20
         [HttpGet("{pageNo}/{rowsOnPage}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
         public async Task<ActionResult<List<Journey>>> GetAllJourneys(int pageNo, int rowsOnPage)
         {
