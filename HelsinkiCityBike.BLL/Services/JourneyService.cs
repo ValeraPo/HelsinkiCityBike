@@ -11,11 +11,20 @@ namespace HelsinkiCityBike.BLL.Services
         {
             _journeyRepository = journeyRepository;
         }
-        public async Task<List<Journey>> GetAllJourneys()
+        public async Task<List<Journey>> GetAllJourneys(int pageNo, int rowsOnPage)
         {
-            var journeys = await _journeyRepository.GetAllJourneys();
+            var rowStart = (pageNo - 1) * rowsOnPage;
+            var amountOfJourneys = await _journeyRepository.GetAmountOfJourneys();
+            if (rowStart > amountOfJourneys)
+                throw new ArgumentOutOfRangeException("The page you are trying to access is out of bounds.");
+            var journeys = await _journeyRepository.GetAllJourneys(rowStart, rowsOnPage);
             return journeys;
         }
 
+        public async Task<int> GetAmountOfJourneys()
+        {
+            var amountOfJourneys = await _journeyRepository.GetAmountOfJourneys();
+            return amountOfJourneys;
+        }
     }
 }

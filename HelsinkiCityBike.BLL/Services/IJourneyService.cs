@@ -5,6 +5,7 @@ namespace HelsinkiCityBike.BLL.Services
 {
     public interface IJourneyService
     {
-        Task<List<Journey>> GetAllJourneys();
+        Task<List<Journey>> GetAllJourneys(int pageNo, int rowsOnPage);
+        Task<int> GetAmountOfJourneys();
     }
 }

@@ -16,13 +16,23 @@ namespace HelsinkiCityBike.API.Controllers
             _journeyService = journeyService;
         }
 
-        // api/journey
-        [HttpGet]
+        // api/journey/1/20
+        [HttpGet("{pageNo}/{rowsOnPage}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
-        public async Task<ActionResult<List<Journey>>> GetAllJourneys()
+        public async Task<ActionResult<List<Journey>>> GetAllJourneys(int pageNo, int rowsOnPage)
         {
-            var outputs = await _journeyService.GetAllJourneys();
+            var outputs = await _journeyService.GetAllJourneys(pageNo, rowsOnPage);
+            return Ok(outputs);
+        }
+
+        // api/journey/amount
+        [HttpGet("amount")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
+        public async Task<ActionResult<int>> GetAmountOfJourneys()
+        {
+            var outputs = await _journeyService.GetAmountOfJourneys();
             return Ok(outputs);
         }
 

@@ -17,9 +17,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperApi));
+builder.Services.AddCors();
+
 
 var app = builder.Build();
-
+app.UseCors(
+       options => options.WithOrigins("*").AllowAnyMethod()
+   );
 app.UseSwagger();
 app.UseSwaggerUI();
 

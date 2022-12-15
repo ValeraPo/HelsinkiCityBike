@@ -20,7 +20,7 @@ namespace HelsinkiCityBike.API.Infrastructure
             {
                 await _next(context);
             }
-            catch (MissingEntryException error)
+            catch (ArgumentOutOfRangeException error)
             {
                 await ConstructResponse(context, HttpStatusCode.BadRequest, error.Message);
             }
