@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using HelsinkiCityBike.DAL.Entities;
+using System.Xml.Linq;
 
 namespace HelsinkiCityBike.DAL.Repositories
 {
@@ -65,6 +66,17 @@ namespace HelsinkiCityBike.DAL.Repositories
             {
                 var id = await connection.QueryFirstOrDefaultAsync<int>(query);
                 return id;
+            }
+        }
+
+        public async Task<float> GetSumOfDistance(int id, string direction)
+        {
+            var query = $"SELECT SUM(dbo.Journeys.[Covered distance (m)]) " +
+                        $"FROM dbo.Journeys WHERE [{direction}] = {id}";
+            using (var connection = _context.CreateConnection())
+            {
+                var distance = await connection.QueryFirstOrDefaultAsync<float>(query);
+                return distance;
             }
         }
     }

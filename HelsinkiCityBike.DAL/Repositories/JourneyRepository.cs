@@ -18,6 +18,7 @@ namespace HelsinkiCityBike.DAL.Repositories
                         $"JourneysWithNames.[Covered distance (m)] AS CoveredDistance, " +
                         $"JourneysWithNames.[Duration (sec)] AS Duration, " +
                         $"JourneysWithNames.Name AS DepartureStationName, " +
+                        $"JourneysWithNames.Id, " +
                         $"dbo.Stations.Name AS ReturnStationName " +
                         $"FROM (SELECT  " +
                               $"dbo.Journeys.*, " +

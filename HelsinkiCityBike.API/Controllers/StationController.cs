@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HelsinkiCityBike.API.Models;
 using HelsinkiCityBike.BLL.Services;
-using HelsinkiCityBike.DAL.Entities;
+using HelsinkiCityBike.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelsinkiCityBike.API.Controllers
@@ -34,7 +34,7 @@ namespace HelsinkiCityBike.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
-        public async Task<ActionResult<Station>> GetStationByName(string name)
+        public async Task<ActionResult<StationLongModel>> GetStationByName(string name)
         {
             var output = await _stationService.GetStationByName(name);
             return Ok(output);

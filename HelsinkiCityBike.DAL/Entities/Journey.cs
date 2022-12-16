@@ -2,6 +2,7 @@
 {
     public class Journey
     {
+        public int Id { get; set; }
         public string DepartureStationName { get; set; }
         public string ReturnStationName { get; set; }
 
