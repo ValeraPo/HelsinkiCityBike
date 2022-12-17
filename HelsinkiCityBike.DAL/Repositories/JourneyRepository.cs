@@ -40,7 +40,7 @@ namespace HelsinkiCityBike.DAL.Repositories
         public async Task<int> GetAmountOfJourneys()
         {
             var query = $"SELECT COUNT(*) FROM [HelsinkiCityBike].[dbo].[Journeys]";
-                        
+
             using (var connection = _context.CreateConnection())
             {
                 var amount = await connection.QueryFirstOrDefaultAsync<int>(query);

@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using HelsinkiCityBike.API.Configuration;
-using HelsinkiCityBike.API.Controllers;
+﻿using HelsinkiCityBike.API.Controllers;
 using HelsinkiCityBike.BLL.Exceptions;
+using HelsinkiCityBike.BLL.Models;
 using HelsinkiCityBike.BLL.Services;
-using HelsinkiCityBike.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -14,14 +12,12 @@ namespace HelsinkiCityBike.API.Tests
     {
         private Mock<IStationService> _stationService;
         private StationController _sut;
-        private IMapper _autoMapper;
 
         [SetUp]
         public void Setup()
         {
             _stationService = new Mock<IStationService>();
-            _autoMapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperApi>()));
-            _sut = new StationController(_stationService.Object, _autoMapper);
+            _sut = new StationController(_stationService.Object);
         }
 
         [Test]
@@ -30,7 +26,7 @@ namespace HelsinkiCityBike.API.Tests
             //given
             _stationService
                 .Setup(s => s.GetAllStations())
-                .ReturnsAsync(new List<Station>());
+                .ReturnsAsync(new List<StationShortModel>());
 
             //when
             var actual = await _sut.GetAllStations();
@@ -44,22 +40,16 @@ namespace HelsinkiCityBike.API.Tests
         public async Task GetStationByName_ShouldReturnStation()
         {
             //given
-            var expected = new Station
-            {
-                Name = "Kaivopuisto",
-                Address = "Havstorget 1",
-                NumberOfJourneysStartingFrom = 23802,
-                NumberOfJourneysEndingAt = 24288
-            };
+            var name = "Kaivopuisto";
             _stationService
-                .Setup(s => s.GetStationByName(expected.Name))
-                .ReturnsAsync(expected);
+                .Setup(s => s.GetStationByName(name))
+                .ReturnsAsync(new StationLongModel());
 
             //when
-            var actual = await _sut.GetStationByName(expected.Name);
+            var actual = await _sut.GetStationByName(name);
 
             //then
-            _stationService.Verify(s => s.GetStationByName(expected.Name), Times.Once());
+            _stationService.Verify(s => s.GetStationByName(name), Times.Once());
             Assert.IsInstanceOf(typeof(OkObjectResult), actual.Result);
         }
 

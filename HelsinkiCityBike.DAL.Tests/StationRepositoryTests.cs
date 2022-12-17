@@ -88,7 +88,7 @@ namespace HelsinkiCityBike.DAL.Tests
             var expected = 42;
             _dbContextMock.Setup(m => m.CreateConnection()).Returns(_connection.Object);
             _connection
-                .SetupDapperAsync(m => m.QueryFirstOrDefaultAsync<int>("Kaivopuisto", null, null, null, null))
+                .SetupDapperAsync(m => m.QueryFirstOrDefaultAsync<int>(It.IsAny<string>(), null, null, null, null))
                 .ReturnsAsync(expected);
 
             //when
@@ -97,6 +97,85 @@ namespace HelsinkiCityBike.DAL.Tests
             //then
             _dbContextMock.Verify(m => m.CreateConnection(), Times.Once);
             Assert.AreEqual(expected, actual);
+        }
+
+
+        [Test]
+        public async Task GetSumOfDistance_ShouldReturnSumOfDistance()
+        {
+            //given
+            var expected = 42.3F;
+            _dbContextMock.Setup(m => m.CreateConnection()).Returns(_connection.Object);
+            _connection
+                .SetupDapperAsync(m => m.QueryFirstOrDefaultAsync<float>(It.IsAny<string>(), null, null, null, null))
+                .ReturnsAsync(expected);
+
+            //when
+            var actual = await _sut.GetSumOfDistance(It.IsAny<int>(), It.IsAny<string>());
+
+            //then
+            _dbContextMock.Verify(m => m.CreateConnection(), Times.Once);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public async Task GetTopReturnStations_ShouldReturnListOfStations()
+        {
+            //given
+            var expected = new List<Station>
+            {
+                new Station
+                {
+                    Name = "Kaivopuisto",
+                    Address = "Havstorget 1",
+                },
+                new Station
+                {
+                    Name = "Laivasillankatu",
+                    Address = "Skeppsbrogatan 14",
+                }
+            };
+            _dbContextMock.Setup(m => m.CreateConnection()).Returns(_connection.Object);
+            _connection
+                .SetupDapperAsync(m => m.QueryAsync<Station>(It.IsAny<string>(), null, null, null, null))
+                .ReturnsAsync(expected);
+
+            //when
+            var actual = await _sut.GetTopReturnStations(It.IsAny<int>());
+
+            //then
+            _dbContextMock.Verify(m => m.CreateConnection(), Times.Once);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public async Task GetTopDepartureStations_ShouldReturnListOfStations()
+        {
+            //given
+            var expected = new List<Station>
+            {
+                new Station
+                {
+                    Name = "Kaivopuisto",
+                    Address = "Havstorget 1",
+                },
+                new Station
+                {
+                    Name = "Laivasillankatu",
+                    Address = "Skeppsbrogatan 14",
+                }
+            };
+            _dbContextMock.Setup(m => m.CreateConnection()).Returns(_connection.Object);
+            _connection
+                .SetupDapperAsync(m => m.QueryAsync<Station>(It.IsAny<string>(), null, null, null, null))
+                .ReturnsAsync(expected);
+
+            //when
+            var actual = await _sut.GetTopDepartureStations(It.IsAny<int>());
+
+            //then
+            _dbContextMock.Verify(m => m.CreateConnection(), Times.Once);
+            CollectionAssert.AreEqual(expected, actual);
         }
     }
 }

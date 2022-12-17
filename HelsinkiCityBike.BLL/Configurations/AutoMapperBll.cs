@@ -10,7 +10,6 @@ namespace HelsinkiCityBike.BLL.Configurations
         {
             CreateMap<Station, StationLongModel>();
             CreateMap<Station, StationShortModel>();
-
         }
     }
 }

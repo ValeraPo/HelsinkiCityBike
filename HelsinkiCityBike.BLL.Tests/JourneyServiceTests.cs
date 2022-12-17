@@ -11,8 +11,6 @@ namespace HelsinkiCityBike.BLL.Tests
         private Mock<IJourneyRepository> _journeyRepositoryMock;
         private JourneyService _sut;
 
-       
-
         [SetUp]
         public void Setup()
         {

@@ -40,12 +40,28 @@ namespace HelsinkiCityBike.BLL.Models
 
         public bool Equals(StationLongModel station)
         {
+            if (TopDepartureStations.Count() != station.TopDepartureStations.Count() ||
+                TopReturnStations.Count() != station.TopReturnStations.Count())
+                return false;
+            for (var i = 0; i < TopDepartureStations.Count(); i++)
+            {
+                if (!TopDepartureStations[i].Equals(TopDepartureStations[i]))
+                    return false;
+            }
+
+            for (var i = 0; i < TopReturnStations.Count(); i++)
+            {
+                if (!TopReturnStations[i].Equals(station.TopReturnStations[i]))
+                    return false;
+            }
+
             return Name == station.Name &&
                    Address == station.Address &&
                    NumberOfJourneysStartingFrom == station.NumberOfJourneysStartingFrom &&
                    NumberOfJourneysEndingAt == station.NumberOfJourneysEndingAt &&
                    AvgDistanceOfJourneyStartingFrom == station.AvgDistanceOfJourneyStartingFrom &&
                    AvgDistanceOfJourneyEndingAt == station.AvgDistanceOfJourneyEndingAt;
+
         }
 
         public override int GetHashCode()

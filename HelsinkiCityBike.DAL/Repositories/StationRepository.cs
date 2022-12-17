@@ -1,8 +1,5 @@
 ﻿using Dapper;
 using HelsinkiCityBike.DAL.Entities;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using static System.Collections.Specialized.BitVector32;
 
 namespace HelsinkiCityBike.DAL.Repositories
 {
