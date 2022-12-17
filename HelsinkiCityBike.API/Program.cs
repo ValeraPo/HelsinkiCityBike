@@ -1,4 +1,3 @@
-using HelsinkiCityBike.API.Configuration;
 using HelsinkiCityBike.API.Infrastructure;
 using HelsinkiCityBike.BLL.Configurations;
 using HelsinkiCityBike.BLL.Services;
@@ -17,7 +16,7 @@ builder.Services.AddScoped<IStationService, StationService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(typeof(AutoMapperApi), typeof(AutoMapperBLL));
+builder.Services.AddAutoMapper(typeof(AutoMapperBLL));
 builder.Services.AddCors();
 
 

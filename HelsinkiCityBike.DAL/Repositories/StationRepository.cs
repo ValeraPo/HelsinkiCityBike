@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using HelsinkiCityBike.DAL.Entities;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.Collections.Specialized.BitVector32;
 
 namespace HelsinkiCityBike.DAL.Repositories
 {
@@ -77,6 +79,42 @@ namespace HelsinkiCityBike.DAL.Repositories
             {
                 var distance = await connection.QueryFirstOrDefaultAsync<float>(query);
                 return distance;
+            }
+        }
+
+        public async Task<List<Station>> GetTopReturnStations(int id)
+        {
+            var query = $"SELECT Name, Adress Address " +
+                        $"FROM " +
+                            $"(SELECT top(5) dbo.Journeys.[Return station id], " +
+                            $"COUNT([Return station id]) AS cnt FROM dbo.Journeys " +
+                            $"WHERE[Departure station id] = {id} " +
+                            $"GROUP BY[Return station id] " +
+                            $"ORDER BY cnt DESC) as t " +
+                        $"LEFT JOIN dbo.Stations " +
+                        $"ON t.[Return station id] = dbo.Stations.ID";
+            using (var connection = _context.CreateConnection())
+            {
+                var stations = await connection.QueryAsync<Station>(query);
+                return stations.ToList();
+            }
+        }
+
+        public async Task<List<Station>> GetTopDepartureStations(int id)
+        {
+            var query = $"SELECT Name, Adress as Address " +
+                        $"FROM " +
+                            $"(SELECT top(5) dbo.Journeys.[Departure station id], " +
+                            $"COUNT([Departure station id]) AS cnt FROM dbo.Journeys " +
+                            $"WHERE[Return station id] = {id} " +
+                            $"GROUP BY[Departure station id] " +
+                            $"ORDER BY cnt DESC) as t " +
+                        $"LEFT JOIN dbo.Stations " +
+                        $"ON t.[Departure station id] = dbo.Stations.ID";
+            using (var connection = _context.CreateConnection())
+            {
+                var stations = await connection.QueryAsync<Station>(query);
+                return stations.ToList();
             }
         }
     }

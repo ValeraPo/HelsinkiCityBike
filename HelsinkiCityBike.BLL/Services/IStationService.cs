@@ -5,7 +5,7 @@ namespace HelsinkiCityBike.BLL.Services
 {
     public interface IStationService
     {
-        Task<List<Station>> GetAllStations();
+        Task<List<StationShortModel>> GetAllStations();
         Task<StationLongModel> GetStationByName(string name);
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace HelsinkiCityBike.API.Models
+﻿namespace HelsinkiCityBike.BLL.Models
 {
-    public class StationShortResponse
+    public class StationShortModel
     {
         public string Name { get; set; }
         public string Address { get; set; }

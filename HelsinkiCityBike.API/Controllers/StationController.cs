@@ -11,21 +11,19 @@ namespace HelsinkiCityBike.API.Controllers
     public class StationController : Controller
     {
         private readonly IStationService _stationService;
-        private readonly IMapper _automapper;
 
-        public StationController(IStationService stationService, IMapper automapper)
+        public StationController(IStationService stationService)
         {
             _stationService = stationService;
-            _automapper = automapper;
         }
 
         // api/station
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status504GatewayTimeout)]
-        public async Task<ActionResult<List<StationShortResponse>>> GetAllStations()
+        public async Task<ActionResult<List<StationShortModel>>> GetAllStations()
         {
-            var outputs = _automapper.Map<List<StationShortResponse>>(await _stationService.GetAllStations());
+            var outputs = await _stationService.GetAllStations();
             return Ok(outputs);
         }
 

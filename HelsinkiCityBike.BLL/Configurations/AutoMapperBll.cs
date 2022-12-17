@@ -9,6 +9,8 @@ namespace HelsinkiCityBike.BLL.Configurations
         public AutoMapperBLL()
         {
             CreateMap<Station, StationLongModel>();
+            CreateMap<Station, StationShortModel>();
+
         }
     }
 }

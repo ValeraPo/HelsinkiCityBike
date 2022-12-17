@@ -8,6 +8,8 @@ namespace HelsinkiCityBike.DAL.Repositories
         Task<Station> GetStationById(int id);
         Task<int> GetIdByName(string name);
         Task<float> GetSumOfDistance(int id, string direction);
+        Task<List<Station>> GetTopReturnStations(int id);
+        Task<List<Station>>  GetTopDepartureStations(int id);
 
     }
 }

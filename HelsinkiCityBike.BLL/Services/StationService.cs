@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HelsinkiCityBike.BLL.Exceptions;
 using HelsinkiCityBike.BLL.Models;
-using HelsinkiCityBike.DAL.Entities;
 using HelsinkiCityBike.DAL.Repositories;
 
 namespace HelsinkiCityBike.BLL.Services
@@ -17,9 +16,10 @@ namespace HelsinkiCityBike.BLL.Services
             _automapper = automapper;
         }
 
-        public async Task<List<Station>> GetAllStations()
+        public async Task<List<StationShortModel>> GetAllStations()
         {
-            var stations = await _stationRepository.GetAllStations();
+            var stations = _automapper
+                .Map<List<StationShortModel>>(await _stationRepository.GetAllStations());
             return stations;
         }
         
@@ -30,8 +30,15 @@ namespace HelsinkiCityBike.BLL.Services
                 throw new MissingEntryException($"Station '{name}' not found");
 
             var station = _automapper.Map<StationLongModel>(await _stationRepository.GetStationById(id));
+
+            station.TopDepartureStations = _automapper
+                .Map<List<StationShortModel>>(await _stationRepository.GetTopDepartureStations(id));
+            station.TopReturnStations = _automapper
+                .Map<List<StationShortModel>>(await _stationRepository.GetTopReturnStations(id));
+
             station.AvgDistanceOfJourneyStartingFrom = await _stationRepository.GetSumOfDistance(id, "Departure station id");
             station.AvgDistanceOfJourneyEndingAt = await _stationRepository.GetSumOfDistance(id, "Return station id");
+            
             return station;
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace HelsinkiCityBike.BLL.Models
+﻿using HelsinkiCityBike.DAL.Entities;
+
+namespace HelsinkiCityBike.BLL.Models
 {
     public class StationLongModel
     {
@@ -6,6 +8,8 @@
         public string Address { get; set; }
         public int NumberOfJourneysStartingFrom { get; set; }
         public int NumberOfJourneysEndingAt { get; set; }
+        public List<StationShortModel> TopDepartureStations { get; set; }
+        public List<StationShortModel> TopReturnStations { get; set; }
         
         private float avgDistanceOfJourneyStartingFrom;
 
