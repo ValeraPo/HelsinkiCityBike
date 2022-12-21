@@ -75,22 +75,5 @@ namespace HelsinkiCityBike.BLL.Tests
             _journeyRepositoryMock.Verify(m => m.GetAllJourneys(It.IsAny<int>(), It.IsAny<int>()), Times.Never);
             Assert.AreEqual(expected, actual);
         }
-
-        [Test]
-        public async Task GetAmountOfJourneys_ShouldReturnAmountOfJourneys()
-        {
-            //given
-            var expected = 42;
-            _journeyRepositoryMock
-                .Setup(s => s.GetAmountOfJourneys())
-                .ReturnsAsync(expected);
-
-            //when
-            var actual = await _sut.GetAmountOfJourneys();
-
-            //then
-            _journeyRepositoryMock.Verify(s => s.GetAmountOfJourneys(), Times.Once());
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

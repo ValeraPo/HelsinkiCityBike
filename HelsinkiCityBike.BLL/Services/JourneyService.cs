@@ -20,11 +20,5 @@ namespace HelsinkiCityBike.BLL.Services
             var journeys = await _journeyRepository.GetAllJourneys(rowStart, rowsOnPage);
             return journeys;
         }
-
-        public async Task<int> GetAmountOfJourneys()
-        {
-            var amountOfJourneys = await _journeyRepository.GetAmountOfJourneys();
-            return amountOfJourneys;
-        }
     }
 }

@@ -60,20 +60,5 @@ namespace HelsinkiCityBike.API.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public async Task GetAmountOfJourneys_ShouldReturnAmountOfJourneys()
-        {
-            //given
-            _journeyService
-                .Setup(s => s.GetAmountOfJourneys())
-                .ReturnsAsync(42);
-
-            //when
-            var actual = await _sut.GetAmountOfJourneys();
-
-            //then
-            _journeyService.Verify(s => s.GetAmountOfJourneys(), Times.Once());
-            Assert.IsInstanceOf(typeof(OkObjectResult), actual.Result);
-        }
     }
 }
